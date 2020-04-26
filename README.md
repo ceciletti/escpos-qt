@@ -34,4 +34,7 @@ Supports several formatting options via a streaming API:
     p << EscPosPrinter::JustificationCenter << EscPosPrinter::PrintModes(EscPosPrinter::PrintModeNone)
       << EscPosPrinter::QRCode(EscPosPrinter::QRCode::Model2, 5, EscPosPrinter::QRCode::M, "https://github.com/ceciletti/escpos-qt") << "\n"
       << EscPosPrinter::JustificationLeft;
+
+    // Send data to printer
+    ioDevice->write(b.data());
 ```

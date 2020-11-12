@@ -22,6 +22,16 @@ EscPosPrinter::EscPosPrinter(QIODevice *device, QObject *parent) : QObject(paren
     });
 }
 
+EscPosPrinter::EscPosPrinter(QIODevice *device, const QByteArray &codecName, QObject *parent) : QObject(parent)
+  , m_device(device)
+{
+    m_codec = QTextCodec::codecForName(codecName);
+    connect(m_device, &QIODevice::readyRead, this, [=] {
+        const QByteArray data = m_device->readAll();
+        qCDebug(EPP) << "GOT" << data << data.toHex();
+    });
+}
+
 EscPosPrinter &EscPosPrinter::operator<<(PrintModes i)
 {
     qCDebug(EPP) << "print modes" << i;

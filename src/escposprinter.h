@@ -9,6 +9,7 @@ class EscPosPrinter : public QObject
     Q_OBJECT
 public:
     explicit EscPosPrinter(QIODevice *device, QObject *parent = nullptr);
+    explicit EscPosPrinter(QIODevice *device, const QByteArray &codecName, QObject *parent = nullptr);
 
     struct QRCode {
         enum Model {

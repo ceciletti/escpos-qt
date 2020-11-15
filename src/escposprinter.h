@@ -93,6 +93,22 @@ public:
     void write(const QByteArray &data);
     void write(const char *data, int size);
 
+    EscPosPrinter &initialize();
+    EscPosPrinter &encode(Encoding codec);
+    EscPosPrinter &mode(PrintModes pm);
+    EscPosPrinter &modeStandard();
+    EscPosPrinter &modePage();
+    EscPosPrinter &partialCut();
+    EscPosPrinter &align(Justification i);
+    EscPosPrinter &paperFeed(int lines);
+
+    EscPosPrinter &text(const QString &text);
+    EscPosPrinter &raw(const QByteArray &data);
+    EscPosPrinter &raw(const char *s);
+    EscPosPrinter &raw(const char *s, int size);
+
+    EscPosPrinter &qr(const QRCode &code);
+
 public Q_SLOTS:
     void getStatus();
 

@@ -29,11 +29,11 @@ public:
     };
 
     enum PrintMode {
-        PrintModeNone = 0x00, // 32char on mini
+        PrintModeNone = 0x00, // 32char on mini, 48 on 80mm
         PrintModeFont2 = 0x01,
         PrintModeEmphasized = 0x08,
         PrintModeDoubleHeight = 0x10,
-        PrintModeDoubleWidth = 0x20, // 16char on mini
+        PrintModeDoubleWidth = 0x20, // 16char on mini, 24 on 80mm
         PrintModeUnderline = 0x80,
     };
     Q_ENUM(PrintMode)
@@ -99,8 +99,9 @@ public:
     EscPosPrinter &modeStandard();
     EscPosPrinter &modePage();
     EscPosPrinter &partialCut();
+    EscPosPrinter &printAndFeedPaper(quint8 n = 1);
     EscPosPrinter &align(Justification i);
-    EscPosPrinter &paperFeed(int lines);
+    EscPosPrinter &paperFeed(int lines = 1);
 
     EscPosPrinter &text(const QString &text);
     EscPosPrinter &raw(const QByteArray &data);

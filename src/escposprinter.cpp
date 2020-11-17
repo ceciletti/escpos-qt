@@ -167,6 +167,13 @@ EscPosPrinter &EscPosPrinter::partialCut()
     return *this;
 }
 
+EscPosPrinter &EscPosPrinter::printAndFeedPaper(quint8 n)
+{
+    const char str[] = { ESC, 'J', char(n)};
+    write(str, sizeof(str));
+    return *this;
+}
+
 EscPosPrinter &EscPosPrinter::align(EscPosPrinter::Justification i)
 {
     const char str[] = { ESC, 'a', char(i)};

@@ -54,12 +54,15 @@ EscPosPrinter &EscPosPrinter::operator<<(EscPosPrinter::_feed lines)
 
 EscPosPrinter &EscPosPrinter::operator<<(const char *s)
 {
-    return raw(s);
+    qCDebug(EPP) << "char *s" << QByteArray(s);
+    write(s, int(strlen(s)));
+    return *this;
 }
 
 EscPosPrinter &EscPosPrinter::operator<<(const QByteArray &s)
 {
-    return raw(s);
+    write(s);
+    return *this;
 }
 
 EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::QRCode &qr)
@@ -68,9 +71,26 @@ EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::QRCode &qr)
     return *this;
 }
 
-EscPosPrinter &EscPosPrinter::operator<<(const QString &s)
+EscPosPrinter &EscPosPrinter::operator<<(const QString &text)
 {
-    return text(s);
+    qCDebug(EPP) << "string" << text << text.toLatin1() << m_codec->fromUnicode(text);
+    if (m_codec) {
+        write(m_codec->fromUnicode(text));
+    } else {
+        write(text.toLatin1());
+    }
+    return *this;
+}
+
+EscPosPrinter &EscPosPrinter::operator<<(QStringView text)
+{
+    qCDebug(EPP) << "string" << text << text.toLatin1() << m_codec->fromUnicode(text);
+    if (m_codec) {
+        write(m_codec->fromUnicode(text));
+    } else {
+        write(text.toLatin1());
+    }
+    return *this;
 }
 
 EscPosPrinter &EscPosPrinter::operator<<(void (*pf)())
@@ -85,11 +105,6 @@ EscPosPrinter &EscPosPrinter::operator<<(void (*pf)())
         return modePage();
     }
     return *this;
-}
-
-void EscPosPrinter::debug()
-{
-    qCDebug(EPP) << "DEBUG" << m_buffer;
 }
 
 void EscPosPrinter::write(const QByteArray &data)
@@ -187,44 +202,6 @@ EscPosPrinter &EscPosPrinter::paperFeed(int lines)
     const char str[] = { ESC, 'd', char(lines)};
     qCDebug(EPP) << "line feeds" << lines << QByteArray(str, 3).toHex();
     write(str, 3);
-    return *this;
-}
-
-EscPosPrinter &EscPosPrinter::text(const QString &text)
-{
-    qCDebug(EPP) << "string" << text << text.toLatin1() << m_codec->fromUnicode(text);
-    if (m_codec) {
-        write(m_codec->fromUnicode(text));
-    } else {
-        write(text.toLatin1());
-    }
-    return *this;
-}
-
-EscPosPrinter &EscPosPrinter::raw(const QByteArray &data)
-{
-    qCDebug(EPP) << "bytearray" << data;
-    write(data);
-    return *this;
-}
-
-EscPosPrinter &EscPosPrinter::raw(const char *s)
-{
-    qCDebug(EPP) << "char *s" << QByteArray(s);
-    write(s, int(strlen(s)));
-    return *this;
-}
-
-EscPosPrinter &EscPosPrinter::raw(const char *s, int size)
-{
-    qCDebug(EPP) << "char *s" << QByteArray(s) << size;
-    write(s, size);
-    return *this;
-}
-
-EscPosPrinter &EscPosPrinter::qr(const EscPosPrinter::QRCode &code)
-{
-    write(code.data);
     return *this;
 }
 

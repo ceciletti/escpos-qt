@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: (C) 2022 Daniel Nicoletti <dantti12@gmail.com>
+# SPDX-License-Identifier: MIT
+
+# - Config information for Firebase Admin
+# This file defines:
+#
+#  EscPosQt_INCLUDE_DIR - the Firebase Admin include directory
+#  EscPosQt_LIBRARY - Link these to use Firebase Admin
+
+SET(prefix "@CMAKE_INSTALL_PREFIX@")
+SET(exec_prefix "@CMAKE_INSTALL_PREFIX@")
+SET(EscPosQt_FOUND "TRUE")
+    
+include("${CMAKE_CURRENT_LIST_DIR}/EscPos@PROJECT_VERSION_MAJOR@Qt@QT_VERSION_MAJOR@Targets.cmake")

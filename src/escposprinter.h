@@ -4,6 +4,7 @@
 #include <QObject>
 
 class QIODevice;
+class QTextCodec;
 class EscPosPrinter : public QObject
 {
     Q_OBJECT
@@ -80,15 +81,14 @@ public:
      * The UTF-8 string will be encoded with QTextCodec
      * if one of the Qt supported encodings is selected.
      */
-    EscPosPrinter &operator<<(const QString &s);
+    EscPosPrinter &operator<<(const QString &text);
+    EscPosPrinter &operator<<(QStringView text);
     EscPosPrinter &operator<<(void (*pf) ());
 
     static void init() {}
     static void eol() {}
     static void standardMode() {}
     static void pageMode() {}
-
-    void debug();
 
     void write(const QByteArray &data);
     void write(const char *data, int size);
@@ -103,18 +103,10 @@ public:
     EscPosPrinter &align(Justification i);
     EscPosPrinter &paperFeed(int lines = 1);
 
-    EscPosPrinter &text(const QString &text);
-    EscPosPrinter &raw(const QByteArray &data);
-    EscPosPrinter &raw(const char *s);
-    EscPosPrinter &raw(const char *s, int size);
-
-    EscPosPrinter &qr(const QRCode &code);
-
 public Q_SLOTS:
     void getStatus();
 
 private:
-    QByteArray m_buffer;
     QTextCodec *m_codec = nullptr;
     QIODevice *m_device;
 };

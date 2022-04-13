@@ -1,6 +1,8 @@
 # escpos-qt
 Qt library for sending ESC/POS commands to an ESC/POS (termal) printer
 
+Works with Qt5 or Qt6 with Core5Compat.
+
 Supports several formatting options via a streaming API:
  * Print encoding with QString codec conversion
  * Print Mode

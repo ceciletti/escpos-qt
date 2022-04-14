@@ -63,24 +63,24 @@ include_directories(
 
 # cmake config files
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/escposqt-config.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt{QT_VERSION_MAJOR}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt${QT_VERSION_MAJOR}Config.cmake
     @ONLY
 )
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/escposqt-config-version.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt{QT_VERSION_MAJOR}ConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt${QT_VERSION_MAJOR}ConfigVersion.cmake
     @ONLY
 )
 install(
     FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt{QT_VERSION_MAJOR}Config.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt{QT_VERSION_MAJOR}ConfigVersion.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt${QT_VERSION_MAJOR}Config.cmake
+    ${CMAKE_CURRENT_BINARY_DIR}/EscPosQt${QT_VERSION_MAJOR}ConfigVersion.cmake
     DESTINATION
-    ${CMAKE_INSTALL_LIBDIR}/cmake/EscPosQt{QT_VERSION_MAJOR}/
+    ${CMAKE_INSTALL_LIBDIR}/cmake/EscPosQt${QT_VERSION_MAJOR}/
 )
 
 install(EXPORT EscPosTargets
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EscPosQt{QT_VERSION_MAJOR}/
-    FILE EscPos{PROJECT_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Targets.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/EscPosQt${QT_VERSION_MAJOR}/
+    FILE EscPos${PROJECT_VERSION_MAJOR}Qt${QT_VERSION_MAJOR}Targets.cmake
     NAMESPACE EscPosQt::
     COMPONENT Devel
 )

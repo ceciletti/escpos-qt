@@ -2,10 +2,14 @@
 #define ESCPOSPRINTER_H
 
 #include <QObject>
+#include <escposexports.h>
 
 class QIODevice;
 class QTextCodec;
-class EscPosPrinter : public QObject
+
+namespace EscPosQt {
+
+class ESC_POS_QT_EXPORT EscPosPrinter : public QObject
 {
     Q_OBJECT
 public:
@@ -111,6 +115,8 @@ private:
     QIODevice *m_device;
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(EscPosPrinter::PrintModes)
+}
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(EscPosQt::EscPosPrinter::PrintModes)
 
 #endif // ESCPOSPRINTER_H

@@ -12,6 +12,8 @@ Q_LOGGING_CATEGORY(EPP, "esc_pos")
 static const char ESC = 0x1B;
 static const char GS = 0x1D;
 
+using namespace EscPosQt;
+
 EscPosPrinter::EscPosPrinter(QIODevice *device, QObject *parent) : QObject(parent)
   , m_device(device)
 {

@@ -48,7 +48,7 @@ target_link_libraries(EscPostQt
 )
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
-    target_link_libraries(EscPostQt${QT_VERSION_MAJOR} PRIVATE Qt6::Core5Compat)
+    target_link_libraries(EscPostQt PRIVATE Qt6::Core5Compat)
 endif()
 
 set_property(TARGET EscPostQt PROPERTY PUBLIC_HEADER ${android_management_HEADERS})

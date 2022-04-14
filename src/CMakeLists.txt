@@ -13,36 +13,36 @@ set(escposqt_HEADERS_PRIVATE
 #     common.h
 )
 
-add_library(EscPostQt${QT_VERSION_MAJOR}
+add_library(EscPostQt
     ${escposqt_SRC}
     ${escposqt_HEADERS}
     ${escposqt_HEADERS_PRIVATE}
 )
 
 #Add an alias so that library can be used inside the build tree, e.g. when testing
-add_library(EscPostQt${QT_VERSION_MAJOR}::Core ALIAS EscPostQt${QT_VERSION_MAJOR})
+add_library(EscPostQt::Core ALIAS EscPostQt)
 
 if (CMAKE_GENERATOR MATCHES "Visual Studio")
-  set_property(TARGET EscPostQt${QT_VERSION_MAJOR} PROPERTY DEBUG_POSTFIX "d")
+  set_property(TARGET EscPostQt PROPERTY DEBUG_POSTFIX "d")
 endif()
 
-target_compile_definitions(EscPostQt${QT_VERSION_MAJOR}
+target_compile_definitions(EscPostQt
   PRIVATE
     PLUGINS_PREFER_DEBUG_POSTFIX=$<CONFIG:Debug>
 )
 
-target_include_directories(EscPostQt${QT_VERSION_MAJOR} PUBLIC
+target_include_directories(EscPostQt PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:include/escpos-qt${QT_VERSION_MAJOR}/EscPostQt>
 )
 
-set_target_properties(EscPostQt${QT_VERSION_MAJOR} PROPERTIES
+set_target_properties(EscPostQt PROPERTIES
     EXPORT_NAME Core
     VERSION ${PROJECT_VERSION}
     SOVERSION 0
 )
 
-target_link_libraries(EscPostQt${QT_VERSION_MAJOR}
+target_link_libraries(EscPostQt
     PRIVATE
         Qt${QT_VERSION_MAJOR}::Core
 )
@@ -51,8 +51,8 @@ if(QT_VERSION_MAJOR GREATER_EQUAL 6)
     target_link_libraries(EscPostQt${QT_VERSION_MAJOR} PRIVATE Qt6::Core5Compat)
 endif()
 
-set_property(TARGET EscPostQt${QT_VERSION_MAJOR} PROPERTY PUBLIC_HEADER ${android_management_HEADERS})
-install(TARGETS EscPostQt${QT_VERSION_MAJOR}
+set_property(TARGET EscPostQt PROPERTY PUBLIC_HEADER ${android_management_HEADERS})
+install(TARGETS EscPostQt
     EXPORT EscPosTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION bin COMPONENT runtime
     ARCHIVE DESTINATION lib COMPONENT devel

@@ -13,7 +13,7 @@ set(escposqt_HEADERS_PRIVATE
 #     common.h
 )
 
-add_library(EscPosQt
+add_library(EscPosQt STATIC
     ${escposqt_SRC}
     ${escposqt_HEADERS}
     ${escposqt_HEADERS_PRIVATE}

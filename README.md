@@ -10,7 +10,8 @@ Supports several formatting options via a streaming API:
  * HRI positioning
  * Reset
  * Line feed
- * QRCode printing
+ * BarCode
+ * QRCode
 
 ## Example Usage
 ```c++

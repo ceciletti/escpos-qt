@@ -33,6 +33,44 @@ public:
         QByteArray data;
     };
 
+    struct BarCodeA {
+        enum System {
+            UpcA = 0x00,
+            UpcB = 0x01,
+            Jan13 = 0x02,
+            Jan8 = 0x03,
+            Code39 = 0x04,
+            Itf = 0x05,
+            Codabar = 0x06,
+        };
+        BarCodeA(EscPosPrinter::BarCodeA::System system, const QByteArray &_data);
+
+        QByteArray data;
+    };
+
+    struct BarCodeB {
+        enum System {
+            UpcA = 0x41,
+            UpcB = 0x42,
+            Jan13 = 0x43,
+            Jan8 = 0x44,
+            Code39 = 0x45,
+            Itf = 0x46,
+            Codabar = 0x47,
+            Code93 = 0x48,
+            Code128 = 0x49,
+            GS1_128 = 0x4A,
+            GS1_DataBar_Omnidirectional = 0x4B,
+            GS1_DataBar_Truncated = 0x4C,
+            GS1_DataBar_Limited = 0x4D,
+            GS1_DataBar_Expanded = 0x4E,
+            Code128Auto = 0x4F,
+        };
+        BarCodeB(EscPosPrinter::BarCodeB::System system, const QByteArray &_data);
+
+        QByteArray data;
+    };
+
     enum PrintMode {
         PrintModeNone = 0x00, // 32char on mini, 48 on 80mm
         PrintModeFont2 = 0x01,
@@ -81,6 +119,8 @@ public:
     EscPosPrinter &operator<<(const char *s);
     EscPosPrinter &operator<<(const QByteArray &s);
     EscPosPrinter &operator<<(const QRCode &qr);
+    EscPosPrinter &operator<<(const BarCodeA &qr);
+    EscPosPrinter &operator<<(const BarCodeB &qr);
     /*!
      * The UTF-8 string will be encoded with QTextCodec
      * if one of the Qt supported encodings is selected.

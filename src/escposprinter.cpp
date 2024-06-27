@@ -73,6 +73,18 @@ EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::QRCode &qr)
     return *this;
 }
 
+EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::BarCodeA &bc)
+{
+    write(bc.data);
+    return *this;
+}
+
+EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::BarCodeB &bc)
+{
+    write(bc.data);
+    return *this;
+}
+
 EscPosPrinter &EscPosPrinter::operator<<(const QString &text)
 {
     qCDebug(EPP) << "string" << text << text.toLatin1() << m_codec->fromUnicode(text);
@@ -253,4 +265,28 @@ EscPosPrinter::QRCode::QRCode(EscPosPrinter::QRCode::Model model, int moduleSize
     const char pT[] = {
         GS, '(', 'k', 0x03, 0x00, 0x31, 0x51, 0x30};
     data.append(pT, sizeof(pT));
+}
+
+EscPosPrinter::BarCodeB::BarCodeB(System system, const QByteArray &_data)
+{
+    qCDebug(EPP) << "BarCodeB" << system << _data;
+    data.reserve(_data.size() + 4);
+
+    const char code[] = { GS, 'k'};
+    data.append(code, sizeof(code));
+    data.append(quint8(system), 1);
+    data.append(quint8(_data.size()), 1);
+    data.append(_data);
+}
+
+EscPosPrinter::BarCodeA::BarCodeA(System system, const QByteArray &_data)
+{
+    qCDebug(EPP) << "BarCodeA" << system << _data;
+    data.reserve(_data.size() + 4);
+
+    const char code[] = { GS, 'k'};
+    data.append(code, sizeof(code));
+    data.append(quint8(system), 1);
+    data.append(_data);
+    data.append('\x00', 1);
 }

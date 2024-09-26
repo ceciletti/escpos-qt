@@ -9,8 +9,10 @@
 
 Q_LOGGING_CATEGORY(EPP, "esc_pos")
 
+namespace {
 static const char ESC = 0x1B;
 static const char GS = 0x1D;
+}
 
 using namespace EscPosQt;
 
@@ -34,9 +36,9 @@ EscPosPrinter::EscPosPrinter(QIODevice *device, const QByteArray &codecName, QOb
     });
 }
 
-EscPosPrinter &EscPosPrinter::operator<<(PrintModes i)
+EscPosPrinter &EscPosPrinter::operator<<(PrintModes bc)
 {
-    return mode(i);
+    return mode(bc);
 }
 
 EscPosPrinter &EscPosPrinter::operator<<(EscPosPrinter::Justification i)
@@ -80,6 +82,12 @@ EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::BarCodeA &bc)
 }
 
 EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::BarCodeB &bc)
+{
+    write(bc.data);
+    return *this;
+}
+
+EscPosPrinter &EscPosPrinter::operator<<(const EscPosPrinter::DarumaBarCode &bc)
 {
     write(bc.data);
     return *this;
@@ -274,8 +282,8 @@ EscPosPrinter::BarCodeB::BarCodeB(System system, const QByteArray &_data)
 
     const char code[] = { GS, 'k'};
     data.append(code, sizeof(code));
-    data.append(quint8(system), 1);
-    data.append(quint8(_data.size()), 1);
+    data.append(quint8(system));
+    data.append(quint8(_data.size()));
     data.append(_data);
 }
 
@@ -286,7 +294,44 @@ EscPosPrinter::BarCodeA::BarCodeA(System system, const QByteArray &_data)
 
     const char code[] = { GS, 'k'};
     data.append(code, sizeof(code));
-    data.append(quint8(system), 1);
+    data.append(quint8(system));
     data.append(_data);
-    data.append('\x00', 1);
+    data.append('\x00');
+}
+
+EscPosPrinter::DarumaBarCode::DarumaBarCode(System system, quint8 width, quint8 height, bool printHri, const QByteArray &_data)
+{
+    qCDebug(EPP) << "BarCode128" << system << width << height << printHri << _data;
+    data.reserve(data.size() + 7);
+
+    // Imprime código de barras horizontal
+    // ESC b n1 n2 n3 n4 s1...sn NULL
+    // n1 – tipo do código a ser impresso
+    // EAN13       1
+    // EAN8        2
+    // S2OF5       3
+    // I2OF5       4
+    // CODE128     5
+    // CODE39      6
+    // CODE93      7
+    // UPC_A       8
+    // CODABAR     9
+    // MSI         10
+    // CODE11      11
+    // n2 – largura da barra. De 2 a 5. Se 0, é usado 2.
+    // n3 – altura da barra. De 50 a 200. Se 0, é usado 50.
+    // n4 – se 1, imprime o código abaixo das barras
+    // s1...sn – string contendo o código.
+    // EAN-13: 12 dígitos de 0 a 9
+    // EAN–8: 7 dígitos de 0 a 9
+    // UPC–A: 11 dígitos de 0 a 9
+
+    const char code[] = {ESC, 'b'};
+    data.append(code, sizeof(code));
+    data.append(quint8(system));
+    data.append(width);
+    data.append(height);
+    data.append(quint8(printHri));
+    data.append(_data);
+    data.append('\x00');
 }

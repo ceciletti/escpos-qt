@@ -71,6 +71,34 @@ public:
         QByteArray data;
     };
 
+    /**
+     * @brief Old termal printers non-standard...
+     *
+     * Beaware that sending justification commands will demand a printer reboot
+     *
+     * HRI stands for Human Readable Interpretation characters
+     * width range 2-5
+     * height range 50-200
+     */
+    struct DarumaBarCode {
+        enum System {
+            EAN13 = 1,
+            EAN8,
+            S2OF5,
+            I2OF5,
+            Code128,
+            Code39,
+            Code93,
+            UPC_A,
+            CODABAR,
+            MSI,
+            Code11,
+        };
+        DarumaBarCode(EscPosPrinter::DarumaBarCode::System system, quint8 width, quint8 height, bool printHri, const QByteArray &_data);
+
+        QByteArray data;
+    };
+
     enum PrintMode {
         PrintModeNone = 0x00, // 32char on mini, 48 on 80mm
         PrintModeFont2 = 0x01,
@@ -119,8 +147,9 @@ public:
     EscPosPrinter &operator<<(const char *s);
     EscPosPrinter &operator<<(const QByteArray &s);
     EscPosPrinter &operator<<(const QRCode &qr);
-    EscPosPrinter &operator<<(const BarCodeA &qr);
-    EscPosPrinter &operator<<(const BarCodeB &qr);
+    EscPosPrinter &operator<<(const BarCodeA &bc);
+    EscPosPrinter &operator<<(const BarCodeB &bc);
+    EscPosPrinter &operator<<(const DarumaBarCode &bc);
     /*!
      * The UTF-8 string will be encoded with QTextCodec
      * if one of the Qt supported encodings is selected.

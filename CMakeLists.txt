@@ -1,10 +1,17 @@
-# SPDX-FileCopyrightText: (C) 2022 Daniel Nicoletti <dantti12@gmail.com>
+# SPDX-FileCopyrightText: (C) 2022-2024 Daniel Nicoletti <dantti12@gmail.com>
 # SPDX-License-Identifier: MIT
 
 cmake_minimum_required(VERSION 3.10)
 project(EscPosQt VERSION 0.1.0 LANGUAGES CXX)
 
+#
+# Options
+#
+option(ENABLE_MAINTAINER_CFLAGS "Enable maintainer CFlags" OFF)
+option(BUILD_SHARED_LIBS "Build in shared lib mode" OFF)
+
 include(GNUInstallDirs)
+include(GenerateExportHeader)
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
@@ -25,14 +32,8 @@ find_package(Qt${QT_VERSION_MAJOR} 5.12.0 COMPONENTS Core REQUIRED)
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
     find_package(Qt${QT_VERSION_MAJOR} 5.12.0 COMPONENTS Core5Compat REQUIRED)
 endif()
-#
-# Options
-#
-option(ENABLE_MAINTAINER_CFLAGS "Enable maintainer CFlags" OFF)
 
 set(CMAKE_INSTALL_LIBDIR "${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_LIBRARY_ARCHITECTURE}" CACHE PATH "Output directory for libraries")
-
-option(BUILD_SHARED_LIBS "Build in shared lib mode" ON)
 
 #
 # Custom C flags

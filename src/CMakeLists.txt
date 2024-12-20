@@ -27,8 +27,9 @@ target_compile_definitions(EscPosQt
 )
 
 target_include_directories(EscPosQt PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<INSTALL_INTERFACE:include/escpos-qt${QT_VERSION_MAJOR}/EscPosQt>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:include/escpos-qt${QT_VERSION_MAJOR}/EscPosQt>
 )
 
 set_target_properties(EscPosQt PROPERTIES
@@ -45,11 +46,12 @@ target_link_libraries(EscPosQt
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
     target_link_libraries(EscPosQt PRIVATE Qt6::Core5Compat)
 endif()
-set_property(TARGET EscPosQt PROPERTY PUBLIC_HEADER ${android_management_HEADERS})
 
-generate_export_header(EscPosQt)
+generate_export_header(EscPosQt
+    EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/escposqt_export.h"
+)
 install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/escposqt_export.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/escposqt_export.h
     DESTINATION include/escpos-qt${QT_VERSION_MAJOR}/EscPosQt
 )
 

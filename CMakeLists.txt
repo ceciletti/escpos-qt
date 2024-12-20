@@ -8,7 +8,6 @@ project(EscPosQt VERSION 0.1.0 LANGUAGES CXX)
 # Options
 #
 option(ENABLE_MAINTAINER_CFLAGS "Enable maintainer CFlags" OFF)
-option(BUILD_SHARED_LIBS "Build in shared lib mode" OFF)
 
 include(GNUInstallDirs)
 include(GenerateExportHeader)
